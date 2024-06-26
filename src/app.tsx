@@ -1,16 +1,15 @@
-import './app.css';
+import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { SnackbarProvider } from 'notistack';
 
-import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import Home from "./pages/home";
 
-import About from './pages/about';
-import Home from './pages/home';
+import "./app.css";
 
 function App() {
   return (
     <div className="app">
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
         <Route path="/home" element={<Home />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
@@ -24,7 +23,9 @@ export default function WrappedApp() {
 
   return (
     <Router basename={basename}>
-      <App />
+      <SnackbarProvider maxSnack={3}>
+        <App />
+      </SnackbarProvider>
     </Router>
   );
 }
