@@ -1,12 +1,10 @@
-import type { Request, Response } from 'express';
-import { Database } from '@blocklet/sdk';
+import type { Request, Response } from "express";
 
-import { USER_DB } from '../../constants';
+import UserDb from "../../models/user";
 
 export default async function $put(req: Request, res: Response) {
   const payload = req.body;
-  const db = new Database(USER_DB);
-  await db.insert(payload);
+  const inserted = await UserDb.insert(payload);
 
-  return res.send();
+  return res.json({ ...inserted, id: inserted._id });
 }

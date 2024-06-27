@@ -7,9 +7,8 @@ import $post from './$post';
 
 const userRouter = Router();
 
-// Step 2: the function of reading and writing DID Space is implemented
 userRouter.get('/', middleware.user(), $get);
-userRouter.put('/', middleware.user(), $put);
+userRouter.put('/:id', middleware.user(), $put);
 userRouter.post('/', middleware.user(), $post);
 
 export default userRouter;

@@ -1,7 +1,12 @@
 import Typography from "@mui/material/Typography";
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 
 import { UserProfile } from "../../types";
+
+interface ProfileCardProps {
+  userProfile?: UserProfile;
+  edit: () => void;
+}
 
 const styles = {
   details: {
@@ -15,12 +20,13 @@ const styles = {
   }
 };
 
-export default function ProfileCard(props: { userProfile?: UserProfile }) {
+export default function ProfileCard(props: ProfileCardProps) {
   const { userProfile } = props;
   return (
     <Grid
       container
-      maxWidth="xs"
+      maxWidth="sm"
+      sx={{ p: 3 }}
       direction="column"
       justifyContent="center"
       alignItems="center"
@@ -38,6 +44,23 @@ export default function ProfileCard(props: { userProfile?: UserProfile }) {
           <Typography style={styles.value}>{userProfile?.phone}</Typography>
           <Typography style={styles.value}>{userProfile?.email}</Typography>
         </Grid>
+      </Grid>
+      <Grid
+        container
+        justifyContent={{ xs: "center" }}
+        item
+        xs={6}
+      >
+        <Button
+          sx={{ p: "1rem 2rem", my: 2, height: "3rem" }}
+          component="button"
+          size="large"
+          variant="contained"
+          color="secondary"
+          onClick={() => props.edit()}
+        >
+          编辑
+        </Button>
       </Grid>
     </Grid>
   );

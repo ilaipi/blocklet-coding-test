@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Alert, CircularProgress } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { keyBy } from "lodash";
@@ -23,6 +23,7 @@ function Home() {
   const [mode, setMode] = useState(MODE.PREVIEW);
   const [loading, setLoading] = useState(true);
   const [userProfile, setUserProfile] = useState<UserProfile>();
+  const fetchUserProfileRef = useRef(false);
 
   const fetchUserProfile = async () => {
     setLoading(true);
@@ -36,7 +37,11 @@ function Home() {
   }
 
   useEffect(() => {
-    fetchUserProfile();
+    // 防止调研两次
+    if (!fetchUserProfileRef.current) {
+      fetchUserProfileRef.current = true;
+      fetchUserProfile();
+    }
   }, []);
 
   const renderNotice = () => {
@@ -46,11 +51,15 @@ function Home() {
     return <Alert style={{ marginTop: '5px' }} severity="warning">用户未注册，请先完成注册！</Alert>;
   }
 
+  const edit = () => {
+    setMode(MODE.EDIT);
+  };
+
   const renderPreview = () => {
     if (mode === MODE.EDIT) {
       return <></>;
     }
-    return <PreviewCard userProfile={userProfile} />;
+    return <PreviewCard userProfile={userProfile} edit={edit} />;
   }
 
   const save = async (payload: UserProfile) => {
@@ -60,7 +69,14 @@ function Home() {
         return;
       }
     }
-    await axios.post('/api/user', payload);
+    if (userProfile?.id) {
+      await axios.put(`/api/user/${userProfile.id}`, payload);
+      setUserProfile({ ...userProfile, ...payload });
+    } else {
+      const res = await axios.post('/api/user', payload);
+      setUserProfile(res.data);
+    }
+    setMode(MODE.PREVIEW);
   };
 
   const renderEdit = () => {
