@@ -1,7 +1,7 @@
-import middleware from '@blocklet/sdk/lib/middlewares';
-import { Router } from 'express';
+import middleware from "@blocklet/sdk/lib/middlewares";
+import { Router } from "express";
 
-import userRouter from './user';
+import userRouter from "./user";
 
 const router = Router();
 

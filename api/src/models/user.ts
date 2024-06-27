@@ -1,10 +1,13 @@
-import { Database } from "@blocklet/sdk";
+import BaseDbModel, { getDB } from "./base";
 
 export const USER_DB = 'user';
 
-const UserDb = new Database(USER_DB, {
-  filename: 'database_files/user.db',
-  timestampData: true,
-});
+export interface UserDbModel extends BaseDbModel {
+  username: string;
+  phone: string;
+  email: string;
+};
+
+const UserDb = getDB(USER_DB);
 
 export default UserDb;

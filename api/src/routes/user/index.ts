@@ -1,9 +1,9 @@
-import middleware from '@blocklet/sdk/lib/middlewares';
-import { Router } from 'express';
+import middleware from "@blocklet/sdk/lib/middlewares";
+import { Router } from "express";
 
-import $get from './$get';
-import $put from './$put';
-import $post from './$post';
+import $get from "./$get";
+import $put from "./$put";
+import $post from "./$post";
 
 const userRouter = Router();
 
